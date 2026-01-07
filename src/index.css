@@ -533,7 +533,18 @@ body {
   .floating-shape {
     display: none;
   }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .container {
+    padding: 0 2rem;
+  }
   
+  .section {
+    padding: 3rem 0;
+  }
+}
+
 /* About section group hover */
 @media (hover: hover) {
   .about-group:hover .card {
@@ -559,12 +570,8 @@ body {
   .about-info-row > div {
     min-width: auto !important;
   }
-}
-}
-
-@media (min-width: 769px) and (max-width: 1024px) {
-/* Touch targets */
-@media (max-width: 768px) {
+  
+  /* Touch targets */
   .btn {
     min-height: 44px;
     min-width: 44px;
