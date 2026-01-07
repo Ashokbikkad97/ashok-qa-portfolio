@@ -17,7 +17,8 @@ const Projects = () => {
         'CI/CD integration testing'
       ],
       techStack: ['Selenium', 'Java', 'TestNG', 'REST Assured', 'Postman', 'Jenkins', 'SQL', 'JIRA'],
-      type: 'Enterprise Application'
+      type: 'Enterprise Application',
+      client: 'Solartopps (Texala India Pvt. Ltd.)'
     },
     {
       title: 'Direct Carrier Billing (DCB)',
