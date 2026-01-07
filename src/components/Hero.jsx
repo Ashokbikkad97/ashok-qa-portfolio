@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Download, Mail, Code, Database, TestTube, GitBranch, User } from 'lucide-react';
+import { motion } from 'framer-motion';
+import getAssetPath from '../utils/getAssetPath';
 
 const Hero = () => {
   const [currentText, setCurrentText] = useState('');
@@ -69,81 +71,124 @@ const Hero = () => {
           alignItems: 'center'
         }} className="hero-grid">
           {/* Left Side - Text Content */}
-          <div>
-            <h1 className="hero-title" style={{
-              fontSize: 'clamp(2.5rem, 5vw, 4rem)',
-              fontWeight: '800',
-              marginBottom: '1rem',
-              color: 'var(--text-primary)',
-              lineHeight: '1.2'
-            }}>
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <motion.h1 
+              className="hero-title" 
+              style={{
+                fontSize: 'clamp(2.5rem, 5vw, 4rem)',
+                fontWeight: '800',
+                marginBottom: '1rem',
+                color: 'var(--text-primary)',
+                lineHeight: '1.2'
+              }}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
               Senior QA Engineer
-            </h1>
+            </motion.h1>
             
-            <div className="hero-subtitle" style={{
-              fontSize: '1.5rem',
-              color: 'var(--primary-color)',
-              fontWeight: '600',
-              marginBottom: '2rem',
-              minHeight: '2rem',
-              display: 'flex',
-              alignItems: 'center'
-            }}>
+            <motion.div 
+              className="hero-subtitle" 
+              style={{
+                fontSize: '1.5rem',
+                color: 'var(--primary-color)',
+                fontWeight: '600',
+                marginBottom: '2rem',
+                minHeight: '2rem',
+                display: 'flex',
+                alignItems: 'center'
+              }}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+            >
               <span>{currentText}</span>
               <span style={{
                 borderRight: '2px solid var(--primary-color)',
                 animation: 'blink 1s step-end infinite',
                 marginLeft: '2px'
               }}>|</span>
-            </div>
+            </motion.div>
             
-            <p className="hero-description" style={{
-              fontSize: '1.1rem',
-              color: 'var(--text-secondary)',
-              marginBottom: '3rem',
-              lineHeight: '1.8'
-            }}>
+            <motion.p 
+              className="hero-description" 
+              style={{
+                fontSize: '1.1rem',
+                color: 'var(--text-secondary)',
+                marginBottom: '3rem',
+                lineHeight: '1.8'
+              }}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.6 }}
+            >
               4+ years of experience driving quality across enterprise-scale applications.
               Specialized in automation frameworks, API testing, and CI/CD integration.
               Strong background in CRM, Order Management, Inventory, Payment, and Accounting systems.
-            </p>
+            </motion.p>
             
-            <div className="hero-buttons" style={{
-              display: 'flex',
-              gap: '1rem',
-              flexWrap: 'wrap'
-            }}>
-              <a
+            <motion.div 
+              className="hero-buttons" 
+              style={{
+                display: 'flex',
+                gap: '1rem',
+                flexWrap: 'wrap'
+              }}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.8 }}
+            >
+              <motion.a
                 href="#resume"
                 className="btn btn-primary btn-ripple"
                 style={{ textDecoration: 'none' }}
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.95 }}
               >
                 <Download size={20} />
                 Download Resume
-              </a>
-              <button
+              </motion.a>
+              <motion.button
                 onClick={scrollToContact}
                 className="btn btn-outline btn-ripple"
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.95 }}
               >
                 <Mail size={20} />
                 Contact Me
-              </button>
-            </div>
-          </div>
+              </motion.button>
+            </motion.div>
+          </motion.div>
 
           {/* Right Side - Profile Photo */}
-          <div className="hero-image" style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center'
-          }}>
-            <div className="profile-container">
+          <motion.div 
+            className="hero-image" 
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center'
+            }}
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+          >
+            <motion.div 
+              className="profile-container"
+              whileHover={{ scale: 1.05 }}
+              transition={{ duration: 0.3 }}
+            >
               <img
-                src="/images/Profile.jpg"
+                src={getAssetPath('images/Profile.jpg')}
                 alt="Ashok Bikkad - Senior QA Engineer"
+                loading="lazy"
                 className="profile-image"
                 onError={(e) => {
-                  e.target.src = '/profile-dummy.svg';
+                  e.target.src = getAssetPath('profile-dummy.svg');
                 }}
               />
               <div style={{
@@ -161,33 +206,52 @@ const Hero = () => {
               }}>
                 <User size={120} />
               </div>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
 
         {/* Skill Highlight Cards */}
-        <div style={{
-          marginTop: '5rem',
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-          gap: '1.5rem'
-        }} className="skill-cards-grid">
+        <motion.div 
+          style={{
+            marginTop: '5rem',
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+            gap: '1.5rem'
+          }} 
+          className="skill-cards-grid"
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 1 }}
+        >
           {skillCards.map((skill, index) => (
-            <div key={index} className="skill-card" style={{
-              animationDelay: `${1.2 + index * 0.2}s`
-            }}>
+            <motion.div 
+              key={index} 
+              className="skill-card"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 1.2 + index * 0.1 }}
+              whileHover={{ 
+                y: -8, 
+                scale: 1.02,
+                boxShadow: '0 15px 35px rgba(37, 99, 235, 0.15)'
+              }}
+            >
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
                 gap: '1rem',
                 marginBottom: '0.5rem'
               }}>
-                <div className="skill-card-icon" style={{
-                  color: 'var(--text-secondary)',
-                  transition: 'all 0.3s ease'
-                }}>
+                <motion.div 
+                  className="skill-card-icon" 
+                  style={{
+                    color: 'var(--text-secondary)',
+                    transition: 'all 0.3s ease'
+                  }}
+                  whileHover={{ scale: 1.1, color: 'var(--primary-color)' }}
+                >
                   {skill.icon}
-                </div>
+                </motion.div>
                 <div>
                   <h4 style={{
                     fontSize: '1.1rem',
@@ -205,40 +269,42 @@ const Hero = () => {
                   </p>
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
 
-      <style jsx>{`
-        @media (max-width: 768px) {
-          .hero-grid {
-            grid-template-columns: 1fr !important;
-            gap: 2rem !important;
-            text-align: center;
+      <style>
+        {`
+          @media (max-width: 768px) {
+            .hero-grid {
+              grid-template-columns: 1fr !important;
+              gap: 2rem !important;
+              text-align: center;
+            }
+            
+            .skill-cards-grid {
+              grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important;
+              gap: 1rem !important;
+            }
+            
+            .profile-image {
+              width: 250px !important;
+              height: 250px !important;
+            }
+            
+            .hero-buttons {
+              justify-content: center;
+            }
           }
           
-          .skill-cards-grid {
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important;
-            gap: 1rem !important;
+          @media (max-width: 480px) {
+            .skill-cards-grid {
+              grid-template-columns: 1fr !important;
+            }
           }
-          
-          .profile-image {
-            width: 250px !important;
-            height: 250px !important;
-          }
-          
-          .hero-buttons {
-            justify-content: center;
-          }
-        }
-        
-        @media (max-width: 480px) {
-          .skill-cards-grid {
-            grid-template-columns: 1fr !important;
-          }
-        }
-      `}</style>
+        `}
+      </style>
     </section>
   );
 };

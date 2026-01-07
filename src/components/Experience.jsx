@@ -1,5 +1,6 @@
 import React from 'react';
 import { MapPin, Calendar, Building } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const Experience = () => {
   const experiences = [
@@ -8,6 +9,7 @@ const Experience = () => {
       company: 'Texala India Pvt. Ltd.',
       location: 'Pune, India',
       duration: 'Apr 2023 – Present',
+      color: '#3b82f6',
       responsibilities: [
         'Architected and implemented Selenium-based automation frameworks using Java, TestNG, and POM, reducing regression time by 60%.',
         'Led end-to-end quality assurance for a CRM-based solar sales and order management platform serving 10,000+ users.',
@@ -23,6 +25,7 @@ const Experience = () => {
       company: 'ionidea Interactive Pvt. Ltd.',
       location: 'Pune / Bangalore, India',
       duration: 'Mar 2022 – Nov 2022',
+      color: '#10b981',
       responsibilities: [
         'Worked on API-focused projects involving payment and billing systems.',
         'Performed API testing using Postman for Direct Carrier Billing (DCB) systems.',
@@ -33,131 +36,207 @@ const Experience = () => {
     }
   ];
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.3 }
+    }
+  };
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6, ease: "easeOut" }
+    }
+  };
+
   return (
-    <section id="experience" className="section" style={{ backgroundColor: 'var(--bg-secondary)' }}>
-      <div className="container">
-        <h2 className="section-title">Professional Experience</h2>
+    <motion.section 
+      id="experience" 
+      className="section" 
+      style={{ 
+        background: 'linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%)',
+        position: 'relative',
+        overflow: 'hidden'
+      }}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: '-100px' }}
+      variants={containerVariants}
+    >
+      <div className="container" style={{ position: 'relative', zIndex: 1 }}>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          style={{ textAlign: 'center', marginBottom: '4rem' }}
+        >
+          <h2 style={{
+            fontSize: 'clamp(2.5rem, 4vw, 3.5rem)',
+            fontWeight: '800',
+            background: 'linear-gradient(135deg, var(--primary-color), var(--accent-color))',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
+            marginBottom: '1rem'
+          }}>
+            Professional Experience
+          </h2>
+          <p style={{
+            fontSize: '1.1rem',
+            color: 'var(--text-secondary)',
+            maxWidth: '600px',
+            margin: '0 auto'
+          }}>
+            4+ years driving quality across enterprise applications and payment systems
+          </p>
+        </motion.div>
         
-        <div style={{ position: 'relative' }}>
-          {/* Timeline line */}
-          <div style={{
-            position: 'absolute',
-            left: '2rem',
-            top: '2rem',
-            bottom: '2rem',
-            width: '2px',
-            backgroundColor: 'var(--primary-color)',
-            display: 'none'
-          }} className="timeline-line" />
-          
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '3rem' }}>
-            {experiences.map((exp, index) => (
-              <div key={index} className="card" style={{ position: 'relative' }}>
-                {/* Timeline dot */}
-                <div style={{
-                  position: 'absolute',
-                  left: '-3rem',
-                  top: '2rem',
-                  width: '1rem',
-                  height: '1rem',
-                  backgroundColor: 'var(--primary-color)',
-                  borderRadius: '50%',
-                  border: '3px solid var(--bg-primary)',
-                  display: 'none'
-                }} className="timeline-dot" />
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '2rem',
+          maxWidth: '900px',
+          margin: '0 auto'
+        }}>
+          {experiences.map((exp, index) => (
+            <motion.div 
+              key={index}
+              className="card"
+              variants={cardVariants}
+              whileHover={{ 
+                y: -8,
+                scale: 1.01,
+                transition: { duration: 0.3, ease: "easeOut" }
+              }}
+              style={{
+                position: 'relative',
+                overflow: 'hidden',
+                cursor: 'pointer'
+              }}
+            >
+              <div style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                height: '4px',
+                background: `linear-gradient(90deg, ${exp.color}, ${exp.color}80)`
+              }} />
+              
+              <div style={{ marginBottom: '2rem' }}>
+                <h3 style={{
+                  fontSize: '1.5rem',
+                  fontWeight: '700',
+                  color: 'var(--text-primary)',
+                  marginBottom: '1rem'
+                }}>
+                  {exp.role}
+                </h3>
                 
-                <div style={{ marginBottom: '1.5rem' }}>
-                  <h3 style={{
-                    fontSize: '1.5rem',
-                    fontWeight: '700',
-                    color: 'var(--text-primary)',
-                    marginBottom: '0.5rem'
-                  }}>
-                    {exp.role}
-                  </h3>
+                <div style={{
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  gap: '1.5rem',
+                  marginBottom: '1.5rem'
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    <motion.div 
+                      style={{
+                        backgroundColor: `${exp.color}15`,
+                        borderRadius: '8px',
+                        padding: '0.5rem',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: exp.color
+                      }}
+                      whileHover={{ scale: 1.1, transition: { duration: 0.2 } }}
+                    >
+                      <Building size={16} />
+                    </motion.div>
+                    <span style={{ color: exp.color, fontWeight: '600', fontSize: '1rem' }}>
+                      {exp.company}
+                    </span>
+                  </div>
                   
-                  <div style={{
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                    gap: '1rem',
-                    marginBottom: '1rem'
-                  }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                      <Building size={16} color="var(--primary-color)" />
-                      <span style={{ color: 'var(--primary-color)', fontWeight: '600' }}>
-                        {exp.company}
-                      </span>
-                    </div>
-                    
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                      <MapPin size={16} color="var(--text-secondary)" />
-                      <span style={{ color: 'var(--text-secondary)' }}>
-                        {exp.location}
-                      </span>
-                    </div>
-                    
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                      <Calendar size={16} color="var(--text-secondary)" />
-                      <span style={{ color: 'var(--text-secondary)' }}>
-                        {exp.duration}
-                      </span>
-                    </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    <MapPin size={16} color="var(--text-secondary)" />
+                    <span style={{ color: 'var(--text-secondary)' }}>
+                      {exp.location}
+                    </span>
+                  </div>
+                  
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    <Calendar size={16} color="var(--text-secondary)" />
+                    <span style={{ color: 'var(--text-secondary)' }}>
+                      {exp.duration}
+                    </span>
                   </div>
                 </div>
+              </div>
+              
+              <div>
+                <h4 style={{
+                  fontSize: '1.1rem',
+                  fontWeight: '600',
+                  color: 'var(--text-primary)',
+                  marginBottom: '1.5rem'
+                }}>
+                  Key Responsibilities:
+                </h4>
                 
-                <div>
-                  <h4 style={{
-                    fontSize: '1.1rem',
-                    fontWeight: '600',
-                    color: 'var(--text-primary)',
-                    marginBottom: '1rem'
-                  }}>
-                    Key Responsibilities:
-                  </h4>
-                  
-                  <ul style={{
-                    listStyle: 'none',
-                    padding: 0,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '0.75rem'
-                  }}>
-                    {exp.responsibilities.map((responsibility, respIndex) => (
-                      <li key={respIndex} style={{
+                <div style={{
+                  display: 'grid',
+                  gap: '1rem'
+                }}>
+                  {exp.responsibilities.map((responsibility, respIndex) => (
+                    <motion.div 
+                      key={respIndex} 
+                      style={{
                         display: 'flex',
                         alignItems: 'flex-start',
-                        gap: '0.75rem',
+                        gap: '1rem',
+                        padding: '1rem',
+                        backgroundColor: 'var(--bg-primary)',
+                        borderRadius: '12px',
+                        border: '1px solid var(--border-color)',
+                        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.05)'
+                      }}
+                      whileHover={{
+                        backgroundColor: `${exp.color}08`,
+                        borderColor: `${exp.color}40`,
+                        transition: { duration: 0.2 }
+                      }}
+                    >
+                      <div style={{
+                        width: '8px',
+                        height: '8px',
+                        backgroundColor: exp.color,
+                        borderRadius: '50%',
+                        marginTop: '0.5rem',
+                        flexShrink: 0
+                      }} />
+                      <p style={{
                         color: 'var(--text-secondary)',
-                        lineHeight: '1.6'
+                        lineHeight: '1.6',
+                        fontSize: '0.95rem'
                       }}>
-                        <div style={{
-                          width: '6px',
-                          height: '6px',
-                          backgroundColor: 'var(--primary-color)',
-                          borderRadius: '50%',
-                          marginTop: '0.5rem',
-                          flexShrink: 0
-                        }} />
                         {responsibility}
-                      </li>
-                    ))}
-                  </ul>
+                      </p>
+                    </motion.div>
+                  ))}
                 </div>
               </div>
-            ))}
-          </div>
+            </motion.div>
+          ))}
         </div>
       </div>
-      
-      <style jsx>{`
-        @media (min-width: 768px) {
-          .timeline-line,
-          .timeline-dot {
-            display: block !important;
-          }
-        }
-      `}</style>
-    </section>
+    </motion.section>
   );
 };
 
