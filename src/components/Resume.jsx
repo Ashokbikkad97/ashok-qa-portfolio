@@ -52,17 +52,22 @@ const Resume = () => {
               marginBottom: '3rem'
             }}>
               <a
-                href="#"
+                href={`${import.meta.env.BASE_URL}Ashok_CV.pdf`}
                 className="btn btn-primary"
                 style={{ textDecoration: 'none' }}
+                download
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 <Download size={20} />
                 Download PDF
               </a>
               <a
-                href="#"
+                href={`${import.meta.env.BASE_URL}Ashok_CV.pdf`}
                 className="btn btn-outline"
                 style={{ textDecoration: 'none' }}
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 <Eye size={20} />
                 Preview Resume
