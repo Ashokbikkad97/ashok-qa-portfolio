@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Mail, Phone, MapPin, Send, Linkedin, Github } from 'lucide-react';
 import { motion } from 'framer-motion';
+import emailjs from '@emailjs/browser';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -8,6 +9,13 @@ const Contact = () => {
     email: '',
     message: ''
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const formRef = useRef();
+
+  // EmailJS Configuration - Replace with your actual values or use environment variables
+  const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID || 'YOUR_SERVICE_ID';
+  const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || 'YOUR_TEMPLATE_ID';
+  const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || 'YOUR_PUBLIC_KEY';
 
   const handleChange = (e) => {
     setFormData({
@@ -16,11 +24,29 @@ const Contact = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    alert('Thank you for your message! I will get back to you soon.');
-    setFormData({ name: '', email: '', message: '' });
+    setIsSubmitting(true);
+
+    try {
+      await emailjs.sendForm(
+        SERVICE_ID,
+        TEMPLATE_ID,
+        formRef.current,
+        PUBLIC_KEY
+      );
+      
+      // Success
+      alert('Thank you for your message! I will get back to you soon.');
+      setFormData({ name: '', email: '', message: '' });
+      formRef.current.reset();
+    } catch (error) {
+      // Error
+      console.error('EmailJS Error:', error);
+      alert('Sorry, there was an error sending your message. Please try again or contact me directly.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const contactInfo = [
@@ -187,10 +213,14 @@ const Contact = () => {
               Send Message
             </h3>
             
-            <form onSubmit={handleSubmit} style={{
-              display: 'grid',
-              gap: '1.5rem'
-            }}>
+            <form 
+              ref={formRef}
+              onSubmit={handleSubmit} 
+              style={{
+                display: 'grid',
+                gap: '1.5rem'
+              }}
+            >
               <div className="contact-form-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
                 <div>
                   <label style={{
@@ -295,31 +325,33 @@ const Contact = () => {
               
               <motion.button
                 type="submit"
+                disabled={isSubmitting}
                 style={{
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   gap: '0.5rem',
                   padding: '1rem 2rem',
-                  backgroundColor: 'var(--primary-color)',
+                  backgroundColor: isSubmitting ? 'var(--text-secondary)' : 'var(--primary-color)',
                   color: 'white',
                   border: 'none',
                   borderRadius: '25px',
                   fontSize: '1rem',
                   fontWeight: '600',
-                  cursor: 'pointer',
+                  cursor: isSubmitting ? 'not-allowed' : 'pointer',
                   width: 'fit-content',
-                  margin: '0 auto'
+                  margin: '0 auto',
+                  opacity: isSubmitting ? 0.7 : 1
                 }}
-                whileHover={{ 
+                whileHover={!isSubmitting ? { 
                   scale: 1.05,
                   y: -2,
                   boxShadow: '0 10px 25px rgba(37, 99, 235, 0.3)'
-                }}
-                whileTap={{ scale: 0.95 }}
+                } : {}}
+                whileTap={!isSubmitting ? { scale: 0.95 } : {}}
               >
                 <Send size={20} />
-                Send Message
+                {isSubmitting ? 'Sending...' : 'Send Message'}
               </motion.button>
             </form>
           </motion.div>
